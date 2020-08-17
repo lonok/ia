@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Algorítimos Genéticos</title>
+    <meta http-equiv="Pragma" content="no-cache">
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    </script>
+</head>
+
+<body>
+    <div id="app">
+    <h1>Algorítimos Genéticos</h1>
+    
+    <h3>População</h3>
+    <div id="individuos">
+        <div style="display:inline-grid; gap:4px; flex-direction:row; flex-wrap: wrap; grid-template-columns: repeat(10, 1fr)">
+            <div v-for="creature in population" style="display:flex;">
+                <span style="border:1px solid #ddd;" :style="{backgroundColor: `rgb(${creature.genome[0]},${creature.genome[1]},${creature.genome[2]})`}">
+                    <img src="imgs/bug.png" style="width:32px;" alt="bug" />
+                </span>
+            </div>
+        </div>
+    </div>
+    Geração: {{ generation }}<br/>
+    Best Fitness: {{ fitness }}<br/>
+
+    <hr/>
+
+    Tamanho da população<br/>
+    <input type="number" v-model="settings.population_size">
+    <br/>
+
+    Taxa de reprodução<br/>
+    <input type="number" step="0.05" v-model="settings.crossover_rate">
+    <br/>
+
+    <br/>
+    <button @click="start()">Iniciar Busca</button>
+    <button v-show="false" @click="populationNext()">Gerar próxima geração</button>
+
+    <h3>Best Creature</h3>
+    <pre>{{ population[0] }}</pre>
+
+    </div>
+</body>
+
+
+<script type="module">
+import { genomeGenerator, fitnessFunction } from './index.js';
+import * as genetic from './genetic_algorithm/genetic.js';
+var app = new Vue({
+    el: '#app',
+    data: {
+        settings: {
+            genomeGenerator: genomeGenerator,
+            fitnessFunction: fitnessFunction,
+
+            population_size: 100, // tamanho da população
+            crossover_rate: 0.33, // taxa de reprodução
+            mutation_rate: 0.05, // taxa de mutação
+            stop_generations_max: 9999,
+            stop_fitness_meta: 1,
+            stop_time_max: 0 // minutes
+        },
+        generation: 0,
+        population: [],
+        fitness: 0,
+    },
+    mounted () {
+        console.log('APP Iniciado');
+    },
+    methods: {
+        sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        },
+        async start() {
+            this.populationCreate();
+            while (this.fitness < this.settings.stop_fitness_meta) {
+                await this.sleep(500); // 33 30 frames/s
+                this.populationNext();
+            }
+        },
+        populationCreate() {
+            this.settings.population_size = parseInt(this.settings.population_size);
+
+            console.log('Generate first generation');
+            let population = genetic.populationGenerator(
+                this.settings.genomeGenerator,
+                this.settings.fitnessFunction,
+                this.settings.population_size
+            );
+            this.population = population;
+            this.generation = 1;
+            this.fitness = this.population[0].fitness;
+        },
+        populationNext() {
+            console.log('Generate next generation');
+            let population = genetic.populationNext(
+                this.population,
+                this.settings.crossover_rate,
+                this.settings.mutation_rate,
+                this.settings.genomeGenerator,
+                this.settings.fitnessFunction,
+            );
+            this.population = population;
+            this.generation += 1;
+            this.fitness = this.population[0].fitness;
+        }
+    },
+})
+</script>
+
+<style>
+* { font-family: monospace; }
+body { padding: 10px; }
+button { padding:8px; background-color:#007bff; color:#fff; border:0; border-radius:8px; }
+#individuos { display: block; padding: 10px; border:1px solid #ddd; margin-bottom: 10px; }
+</style>
+
+    

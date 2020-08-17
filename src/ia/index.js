@@ -32,8 +32,8 @@ function train(weights, point, team) {
 //train(randomPoints,);
 
 testTrain = {
-    const point = {x:200,y:400} // -1
-    return train(randomWeights,point,team(point))
+    point: {x:200,y:400},
+    train
 }
 
 console.log(testTrain);

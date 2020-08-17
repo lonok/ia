@@ -1,0 +1,23 @@
+{
+  "name": "basic",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "basicIA",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "http-server": "^0.12.3",
+    "ramda": "^0.26.1",
+    "socket.io": "^2.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
+  "scripts": {
+    "start": "node dashboard/server.js",
+    "dev": "nodemon ./genetic_algorithm/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Leonardo Filipe",
+  "license": "ISC"
+}
