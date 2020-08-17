@@ -1,13 +1,33 @@
 # Algorítimo Genético
 
-$ run.bat
+## Com docker
 
-# http-server . --port 5555
+```
+// inicie a instância do docker
 
-No seu browser acesse:
+$ docker-compose down --remove-orphans
+$ docker-compose build
+$ docker-compose up -d
+$ docker exec -it ia bash
 
-http://127.0.0.1:5555/
+// dentro do bash do container
+root@:/app/src# http-server . --port 5555
+```
 
-Defina os parametros do algorítimo e clique em [Iniciar Busca]
+## Sem docker
 
-Para visualizar mais lento, diminua o FDP para 1
+- Necessário nodejs 14 instalado (node --version)
+
+```
+$ cd src
+$ npm install
+$ http-server . --port 5555
+```
+
+## Visualização
+
+No seu browser acesse: http://127.0.0.1:5555/
+
+Defina os parametros do algorítimo e clique em **[ Iniciar Busca ]**
+
+O algorítimo roda muito rápido para cada geração, para visualizar o que acontece de forma mais lenta lenta, diminua o FDP para 1
