@@ -4,7 +4,6 @@ ENV TZ=America/Sao_Paulo
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-# OPENCV BUILD
 RUN apt-get update && apt-get install -y git wget unzip curl
 
 # NODE JS
@@ -12,12 +11,11 @@ RUN apt-get -y install curl dirmngr apt-transport-https lsb-release ca-certifica
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash
 RUN apt-get -y install nodejs
 
-WORKDIR /app
+WORKDIR /app/src
 
 COPY ./src/package.json /app/src/package.json
-#RUN npm install -g opencv4nodejs --unsafe-perm
 RUN npm install -g nodemon && npm install
-
-#COPY ./app /app/src
+RUN npm install --global http-server
+#RUN http-server . --port 5555
 
 #CMD ["nodemon", "-L", "./src/main.js"]

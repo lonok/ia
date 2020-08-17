@@ -9,6 +9,6 @@ learning_ia:
         - "5555:5555"
     tty: true
     env_file: ./.env
-    command: bash -c "http-server . --port 5555"
+    #command: bash -c "http-server . --port 5555"
     environment:
         - TIMEZONE=${TIMEZONE}

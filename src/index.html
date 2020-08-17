@@ -26,12 +26,28 @@
 
     <hr/>
 
-    Tamanho da população<br/>
+    <h3>Settings</h3>
+
+    <h4>Algorítimo</h4>
+    Tamanho da população (1 - 1000)<br/>
     <input type="number" v-model="settings.population_size">
     <br/>
 
-    Taxa de reprodução<br/>
+    % Taxa de reprodução (0.01 - 1.00)<br/>
     <input type="number" step="0.05" v-model="settings.crossover_rate">
+    <br/>
+
+    % Taxa de mutação (0.01 - 1.00)<br/>
+    <input type="number" step="0.05" v-model="settings.mutation_rate">
+    <br/>
+
+    % Solução Meta (0.90 - 1.00)<br/>
+    <input type="number" step="0.05" v-model="settings.stop_fitness_meta">
+    <br/>
+
+    <h4>Dashboard</h4>
+    FPS - Frames por Segundo (1 - 60)<br/>
+    <input type="number" step="1" v-model="fps">
     <br/>
 
     <br/>
@@ -51,15 +67,16 @@ import * as genetic from './genetic_algorithm/genetic.js';
 var app = new Vue({
     el: '#app',
     data: {
+        fps: 60,
         settings: {
             genomeGenerator: genomeGenerator,
             fitnessFunction: fitnessFunction,
 
             population_size: 100, // tamanho da população
-            crossover_rate: 0.33, // taxa de reprodução
-            mutation_rate: 0.05, // taxa de mutação
+            crossover_rate: 0.10, // taxa de reprodução
+            mutation_rate: 0.01, // taxa de mutação
             stop_generations_max: 9999,
-            stop_fitness_meta: 1,
+            stop_fitness_meta: 0.99,
             stop_time_max: 0 // minutes
         },
         generation: 0,
@@ -76,14 +93,17 @@ var app = new Vue({
         async start() {
             this.populationCreate();
             while (this.fitness < this.settings.stop_fitness_meta) {
-                await this.sleep(500); // 33 30 frames/s
+                await this.sleep(1000 / parseInt(this.fps));
                 this.populationNext();
             }
         },
         populationCreate() {
             this.settings.population_size = parseInt(this.settings.population_size);
+            this.settings.crossover_rate = parseFloat(this.settings.crossover_rate);
+            this.settings.mutation_rate = parseFloat(this.settings.mutation_rate);
+            this.settings.stop_fitness_meta = parseFloat(this.settings.stop_fitness_meta);
 
-            console.log('Generate first generation');
+            //console.log('Generate first generation');
             let population = genetic.populationGenerator(
                 this.settings.genomeGenerator,
                 this.settings.fitnessFunction,
@@ -94,7 +114,7 @@ var app = new Vue({
             this.fitness = this.population[0].fitness;
         },
         populationNext() {
-            console.log('Generate next generation');
+            //console.log('Generate next generation');
             let population = genetic.populationNext(
                 this.population,
                 this.settings.crossover_rate,
@@ -115,6 +135,7 @@ var app = new Vue({
 body { padding: 10px; }
 button { padding:8px; background-color:#007bff; color:#fff; border:0; border-radius:8px; }
 #individuos { display: block; padding: 10px; border:1px solid #ddd; margin-bottom: 10px; }
+input { padding: 4px; margin-bottom: 2px; }
 </style>
 
     
