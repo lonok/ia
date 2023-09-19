@@ -30,4 +30,4 @@ No seu browser acesse: http://127.0.0.1:5555/
 
 Defina os parametros do algorítimo e clique em **[ Iniciar Busca ]**
 
-O algorítimo roda muito rápido para cada geração, para visualizar o que acontece de forma mais lenta lenta, diminua o FDP para 1
+O algorítimo roda muito rápido para cada geração, para visualizar o que acontece de forma mais lenta lenta, diminua o FPS para 1

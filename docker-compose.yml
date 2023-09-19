@@ -1,14 +1,17 @@
-learning_ia:
-    container_name: ia
-    build: .
-    restart: "no"
-    volumes:
-        - "./src:/app/src"
-        - "./storage:/app/storage"
-    ports:
-        - "5555:5555"
-    tty: true
-    env_file: ./.env
-    #command: bash -c "http-server . --port 5555"
-    environment:
-        - TIMEZONE=${TIMEZONE}
+version: "3.8"
+
+services: 
+    learning_ia:
+        container_name: ia
+        build: .
+        restart: "no"
+        volumes:
+            - "./src:/app/src"
+            - "./storage:/app/storage"
+        ports:
+            - "5555:5555"
+        tty: true
+        env_file: ./.env
+        #command: bash -c "http-server . --port 5555"
+        environment:
+            - TIMEZONE=${TIMEZONE}
