@@ -11,7 +11,7 @@ $ docker-compose up -d
 $ docker exec -it ia bash
 
 // dentro do bash do container
-root@:/app/src# http-server . --port 5555
+root@:/app/docs# http-server . --port 5555
 ```
 
 ## Sem docker
@@ -19,7 +19,7 @@ root@:/app/src# http-server . --port 5555
 - Necessário nodejs 14 instalado (node --version)
 
 ```
-$ cd src
+$ cd docs
 $ npm install
 $ http-server . --port 5555
 ```

@@ -13,7 +13,7 @@ RUN apt-get -y install nodejs
 
 WORKDIR /app/src
 
-COPY ./src/package.json /app/src/package.json
+COPY ./docs/package.json /app/src/package.json
 RUN npm install -g nodemon && npm install
 RUN npm install --global http-server
 #RUN http-server . --port 5555
