@@ -6,7 +6,7 @@ services:
         build: .
         restart: "no"
         volumes:
-            - "./src:/app/src"
+            - "./src:/app/docs"
             - "./storage:/app/storage"
         ports:
             - "5555:5555"
